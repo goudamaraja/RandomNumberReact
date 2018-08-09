@@ -1,35 +1,35 @@
-enum GameState{
-    WELCOMING,
-    STICK,
-    PLAY
-}
+
+const attempts = 10;
+
 
 export class Game{
-    private stateCur: GameState = GameState.WELCOMING;
-    makeAMove(sInput: string): string
-    {
-        let sReply = "Hi I'm spot (a dog). Oh look a stick. Do you play or keep on walking?";
-        switch(this.stateCur){
-            case GameState.WELCOMING:
-                this.stateCur = GameState.STICK;
-                break;
-            case GameState.STICK:
-                if(sInput.toLowerCase().match("play")){
-                    sReply = "Great my favourite game ... Here's the stick back. Do you throw it again?"
-                    this.stateCur = GameState.PLAY;
+
+    private randomNumber : any = Math.floor(Math.random() * 100) + 1;
+    private count : any = 0;
+
+    makeAMove(sInput: string){
+
+        this.count++;
+        let sReply = "You guessed no :"+sInput;
+        var guess = this.randomNumber.toString();
+        if(this.count <= attempts){
+            if(sInput==guess){
+                sReply="Congratulations! You got it right."+guess +". Let's play one more time!";
+                this.randomNumber =  Math.floor(Math.random() * 100) + 1;
+                this.count = 0;
+            }else{
+                if(sInput<guess){
+                    sReply=`Your guess is wrong. HINT:Answer is greater than entered number.`  + `
+                    Attempts left:  ` + (attempts - this.count);
                 }else{
-                    sReply = "Walking is my favourite. Oh look a stick! Do you play or keep on walking?";
+                    sReply=`Your guess is wrong. HINT:Answer is lesser than entered number` + `
+                    Attempts left: ` + (attempts - this.count);
                 }
-                break;
-            case GameState.PLAY:
-                if(sInput.toLowerCase().match("yes")){
-                    sReply = "Here it is! I got it for you. Do you toss it again.... Please? ";
-                }else{
-                    sReply = "Walking is my favourite. Oh look a stick! Do you play or keep on walking?";
-                    this.stateCur = GameState.STICK;
-                }
-                break;
+            }
+            return(sReply);
         }
-        return(sReply);
+    this.randomNumber =  Math.floor(Math.random() * 100) + 1;
+    this.count = 0;
+    return("Sorry, you're out of attempts! Good luck next time! Let's play one more time!");
     }
 }

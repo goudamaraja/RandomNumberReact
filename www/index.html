@@ -2,17 +2,22 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Guess number game!</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
     <div ng-app="myApp" ng-controller="myCtrl">
         <form>
-            <div ng-repeat="(n, message) in messages track by n">{{message.From}}:&nbsp;{{message.Body}}</div>
-            <p>Message :
+                <h2 style="color:#29637A">Guess the Number!</h2>
+                <div style="color:#450027">Guess the computer generated random number between 1 and 100.</div>
+           
+            <p style="color:#29637A">Your Guess :
                 <input type="text" ng-model="newMessageText">
-                <button type="submit" ng-click="addMessage()">Send</button>
+                <button class="btn btn-primary btn-sm" type="submit" ng-click="addMessage()">Verify</button>
+                
             </p>
+            <div style="color:red; font-weight: bold" ng-repeat="(n, message) in messages track by n">{{message.From}}:&nbsp;{{message.Body}}</div>
 
         </form>
     </div>
@@ -22,13 +27,18 @@
         var app = angular.module("myApp", []);
         app.controller("myCtrl", function ($scope, $http) {
             $scope.messages = [];
-            $scope.sender = "you@" + Math.ceil(Math.random() * 1000);
+            $scope.sender = "You Typed ";
             $scope.addMessage = function () {
+
+               
+
                 var newMessage = {
                     Body: $scope.newMessageText,
                     From: $scope.sender
                 }
+
                 $scope.messages.push(newMessage);
+                
                 $scope.newMessageText = "";
                 $http({
                     method: 'POST',
@@ -43,7 +53,7 @@
                     var jsonObj = x2js.xml_str2json(data.data);
                     var newResponse = {
                         Body: jsonObj.Response.Message,
-                        From: "bot"
+                        From: "Response "
                     };
 
                     $scope.messages.push(newResponse);
